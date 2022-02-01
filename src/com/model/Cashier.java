@@ -11,7 +11,19 @@ public class Cashier {
 	private String phoneNumber;
 	private String email;
 	private String address;
-	
+	public Cashier() {}
+	public Cashier(String firstName, String lastName, String userName, String passWord, Date birthDate,
+			String phoneNumber, String email, String address) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userName = userName;
+		this.passWord = passWord;
+		this.birthDate = birthDate;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.address = address;
+	}
 	public String getFirstName() {
 		return firstName;
 	}
