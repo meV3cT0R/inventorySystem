@@ -5,6 +5,8 @@ import java.util.List;
 import com.db.DB;
 import com.model.Cashier;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,7 +15,25 @@ import java.util.ArrayList;
 public class AdminServiceImpl implements AdminService{
 
 	@Override
-	public void addCashier() {
+	public void addCashier(Cashier cashier) {
+		String query = "INSERT INTO cashier(firstName,lastName,userName,passWord,birthDate,address) VALUES(?,?,?,?,?,?)";
+		try {
+			PreparedStatement pstm = DB.getDbConn().prepareStatement(query);
+			pstm.setString(1, cashier.getFirstName());
+			pstm.setString(2, cashier.getLastName());
+			pstm.setString(3, cashier.getUserName());
+			pstm.setString(4, cashier.getPassWord());
+			pstm.setDate(5, new Date(cashier.getBirthDate().getTime()));
+			pstm.setString(6,cashier.getAddress());
+			
+			if(pstm.execute()) {
+				
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -22,12 +42,14 @@ public class AdminServiceImpl implements AdminService{
 		String query = "SELECT * from temp_cashier";
 		List<Cashier> cashiers = new ArrayList<Cashier>();
 		
+		Cashier cashier = new Cashier();
 		try {
 			Statement stm = DB.getDbConn().createStatement();
 			ResultSet rs = stm.executeQuery(query);
 			
+			
 			if(rs.next()) {
-				Cashier cashier = new Cashier();
+				
 				cashier.setFirstName(rs.getString("firstName"));
 				cashier.setLastName(rs.getString("lastName"));
 				cashier.setUserName(rs.getString("userName"));
@@ -38,7 +60,6 @@ public class AdminServiceImpl implements AdminService{
 				cashiers.add(cashier);
 			}
 				
-			return cashiers;
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -46,7 +67,7 @@ public class AdminServiceImpl implements AdminService{
 		
 		
 		
-		return null;
+		return cashiers;
 		
 	}
 	

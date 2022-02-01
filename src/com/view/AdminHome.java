@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.model.Cashier;
@@ -25,6 +26,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class AdminHome extends JFrame {
 
@@ -65,8 +69,9 @@ public class AdminHome extends JFrame {
 		contentPane.add(getUnVerifiedCashierEmployee());
 		contentPane.add(getAdminHomeHeader());
 		contentPane.add(getSeparator());
-		contentPane.add(getScrollPane());
 		contentPane.add(getVerifyButton());
+		contentPane.add(getScrollPane());
+		
 		getUnverifiedCashiers();
 	}
 
@@ -111,6 +116,7 @@ public class AdminHome extends JFrame {
 					"id", "First Name", "Last Name", "Username", "password", "Birth Date", "Address"
 				}
 			));
+			
 		}
 		return table;
 	}
@@ -127,7 +133,27 @@ public class AdminHome extends JFrame {
 					setCursor(Cursor.DEFAULT_CURSOR);
 				}
 			});
-			verifyButton.setEnabled(false);
+			
+			verifyButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					AdminService as = new AdminServiceImpl();
+					Cashier cashier = new Cashier();
+					
+					cashier.setFirstName(table.getValueAt(table.getSelectedRow(),1).toString());
+					cashier.setLastName(table.getValueAt(table.getSelectedRow(),2).toString());
+					cashier.setUserName(table.getValueAt(table.getSelectedRow(), 3).toString());
+					try {
+						cashier.setBirthDate(new SimpleDateFormat("yyyy-dd-mm").parse((table.getValueAt(table.getSelectedRow(), 5).toString())));
+					} catch (ParseException e1) {
+						
+						e1.printStackTrace();
+					}
+					cashier.setAddress(table.getValueAt(table.getSelectedRow(), 6).toString());
+					cashier.setPassWord(table.getValueAt(table.getSelectedRow(), 4).toString());
+					as.addCashier(cashier);
+				}
+			});
 			verifyButton.setBackground(Color.GREEN);
 			verifyButton.setForeground(Color.BLACK);
 			verifyButton.setBounds(530, 99, 89, 23);
@@ -139,8 +165,11 @@ public class AdminHome extends JFrame {
 		AdminService as = new AdminServiceImpl();
 		
 		DefaultTableModel tmodel = (DefaultTableModel) table.getModel();
+		int counter = 1;
 		for(Cashier cashier : as.getAllUnverifiedCashiers()) {
-			tmodel.addRow(new Object[] {cashier.getFirstName(),cashier.getLastName(),cashier.getUserName(),cashier.getBirthDate(),cashier.getAddress()});
+			
+			tmodel.addRow(new Object[] {counter,cashier.getFirstName(),cashier.getLastName(),cashier.getUserName(),cashier.getPassWord(),cashier.getBirthDate(),cashier.getAddress()});
+			counter++;
 		}
 		
 	}
