@@ -1,4 +1,4 @@
 
-# Inventory System
+# Inventory Management System
 
 Nothin much

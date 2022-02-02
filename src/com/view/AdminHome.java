@@ -39,6 +39,7 @@ public class AdminHome extends JFrame {
 	private JScrollPane scrollPane;
 	private JTable table;
 	private JButton verifyButton;
+	private JButton logoutButton;
 
 	/**
 	 * Launch the application.
@@ -71,6 +72,7 @@ public class AdminHome extends JFrame {
 		contentPane.add(getSeparator());
 		contentPane.add(getVerifyButton());
 		contentPane.add(getScrollPane());
+		contentPane.add(getLogoutButton());
 		
 		getUnverifiedCashiers();
 	}
@@ -152,6 +154,7 @@ public class AdminHome extends JFrame {
 					cashier.setAddress(table.getValueAt(table.getSelectedRow(), 6).toString());
 					cashier.setPassWord(table.getValueAt(table.getSelectedRow(), 4).toString());
 					as.addCashier(cashier);
+					getUnverifiedCashiers();
 				}
 			});
 			verifyButton.setBackground(Color.GREEN);
@@ -172,5 +175,18 @@ public class AdminHome extends JFrame {
 			counter++;
 		}
 		
+	}
+	private JButton getLogoutButton() {
+		if (logoutButton == null) {
+			logoutButton = new JButton("Log  Out");
+			logoutButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new Home().setVisible(true);
+					dispose();
+				}
+			});
+			logoutButton.setBounds(530, 11, 89, 23);
+		}
+		return logoutButton;
 	}
 }

@@ -17,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CashierRegister extends JFrame {
 
@@ -24,19 +26,19 @@ public class CashierRegister extends JFrame {
 	private JLabel registerHeader;
 	private JSeparator separator;
 	private JLabel firstNameLabel;
-	private JTextField textField;
+	private JTextField firstNameField;
 	private JLabel lastNameLabel;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField lastNameField;
+	private JTextField userNameField;
+	private JTextField passWordField;
+	private JTextField retypePassWordField;
 	private JLabel userNameLabel;
 	private JDateChooser dateChooser;
 	private JLabel passwordLabel;
 	private JLabel retypePassLabel;
 	private JLabel birthDateLabel;
 	private JLabel addressLabel;
-	private JTextField textField_5;
+	private JTextField addressField;
 	private JButton registerButton;
 	private JLabel goBackButton;
 
@@ -69,19 +71,19 @@ public class CashierRegister extends JFrame {
 		contentPane.add(getRegisterHeader());
 		contentPane.add(getSeparator());
 		contentPane.add(getFirstNameLabel());
-		contentPane.add(getTextField());
+		contentPane.add(getFirstNameField());
 		contentPane.add(getLastNameLabel());
-		contentPane.add(getTextField_1());
-		contentPane.add(getTextField_2());
-		contentPane.add(getTextField_3());
-		contentPane.add(getTextField_4());
+		contentPane.add(getLastNameField());
+		contentPane.add(getUserNameField());
+		contentPane.add(getPassWordField());
+		contentPane.add(getRetypePassWordField());
 		contentPane.add(getUserNameLabel());
 		contentPane.add(getDateChooser());
 		contentPane.add(getPasswordLabel());
 		contentPane.add(getRetypePassLabel());
 		contentPane.add(getBirthDateLabel());
 		contentPane.add(getAddressLabel());
-		contentPane.add(getTextField_5());
+		contentPane.add(getAddressField());
 		contentPane.add(getRegisterButton());
 		contentPane.add(getGoBackButton());
 	}
@@ -108,13 +110,13 @@ public class CashierRegister extends JFrame {
 		}
 		return firstNameLabel;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBounds(108, 80, 203, 23);
-			textField.setColumns(10);
+	private JTextField getFirstNameField() {
+		if (firstNameField == null) {
+			firstNameField = new JTextField();
+			firstNameField.setBounds(108, 80, 203, 23);
+			firstNameField.setColumns(10);
 		}
-		return textField;
+		return firstNameField;
 	}
 	private JLabel getLastNameLabel() {
 		if (lastNameLabel == null) {
@@ -123,37 +125,37 @@ public class CashierRegister extends JFrame {
 		}
 		return lastNameLabel;
 	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setColumns(10);
-			textField_1.setBounds(108, 120, 203, 23);
+	private JTextField getLastNameField() {
+		if (lastNameField == null) {
+			lastNameField = new JTextField();
+			lastNameField.setColumns(10);
+			lastNameField.setBounds(108, 120, 203, 23);
 		}
-		return textField_1;
+		return lastNameField;
 	}
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setColumns(10);
-			textField_2.setBounds(108, 160, 203, 23);
+	private JTextField getUserNameField() {
+		if (userNameField == null) {
+			userNameField = new JTextField();
+			userNameField.setColumns(10);
+			userNameField.setBounds(108, 160, 203, 23);
 		}
-		return textField_2;
+		return userNameField;
 	}
-	private JTextField getTextField_3() {
-		if (textField_3 == null) {
-			textField_3 = new JTextField();
-			textField_3.setColumns(10);
-			textField_3.setBounds(108, 200, 203, 23);
+	private JTextField getPassWordField() {
+		if (passWordField == null) {
+			passWordField = new JTextField();
+			passWordField.setColumns(10);
+			passWordField.setBounds(108, 200, 203, 23);
 		}
-		return textField_3;
+		return passWordField;
 	}
-	private JTextField getTextField_4() {
-		if (textField_4 == null) {
-			textField_4 = new JTextField();
-			textField_4.setColumns(10);
-			textField_4.setBounds(108, 240, 203, 23);
+	private JTextField getRetypePassWordField() {
+		if (retypePassWordField == null) {
+			retypePassWordField = new JTextField();
+			retypePassWordField.setColumns(10);
+			retypePassWordField.setBounds(108, 240, 203, 23);
 		}
-		return textField_4;
+		return retypePassWordField;
 	}
 	private JLabel getUserNameLabel() {
 		if (userNameLabel == null) {
@@ -197,17 +199,23 @@ public class CashierRegister extends JFrame {
 		}
 		return addressLabel;
 	}
-	private JTextField getTextField_5() {
-		if (textField_5 == null) {
-			textField_5 = new JTextField();
-			textField_5.setBounds(108, 326, 203, 23);
-			textField_5.setColumns(10);
+	private JTextField getAddressField() {
+		if (addressField == null) {
+			addressField = new JTextField();
+			addressField.setBounds(108, 326, 203, 23);
+			addressField.setColumns(10);
 		}
-		return textField_5;
+		return addressField;
 	}
 	private JButton getRegisterButton() {
 		if (registerButton == null) {
 			registerButton = new JButton("Register");
+			registerButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(!passWordField.getText().equals(retypePassWordField.getText()))
+						return;
+				}
+			});
 			registerButton.setBounds(161, 379, 89, 23);
 		}
 		return registerButton;

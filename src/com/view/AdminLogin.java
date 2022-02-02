@@ -6,9 +6,17 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.service.AdminService;
+import com.service.AdminServiceImpl;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -19,9 +27,9 @@ public class AdminLogin extends JFrame {
 	private JLabel lblNewLabel;
 	private JSeparator separator;
 	private JLabel userNameLabel;
-	private JTextField textField;
+	private JTextField userNameField;
 	private JLabel passwordLabel;
-	private JTextField textField_1;
+	private JTextField passwordField;
 	private JButton loginButton;
 
 	/**
@@ -53,9 +61,9 @@ public class AdminLogin extends JFrame {
 		contentPane.add(getLblNewLabel());
 		contentPane.add(getSeparator());
 		contentPane.add(getUserNameLabel());
-		contentPane.add(getTextField());
+		contentPane.add(getUserNameField());
 		contentPane.add(getPasswordLabel());
-		contentPane.add(getTextField_1());
+		contentPane.add(getPasswordField());
 		contentPane.add(getLoginButton());
 	}
 
@@ -82,13 +90,13 @@ public class AdminLogin extends JFrame {
 		}
 		return userNameLabel;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBounds(134, 88, 203, 23);
-			textField.setColumns(10);
+	private JTextField getUserNameField() {
+		if (userNameField == null) {
+			userNameField = new JTextField();
+			userNameField.setBounds(134, 88, 203, 23);
+			userNameField.setColumns(10);
 		}
-		return textField;
+		return userNameField;
 	}
 	private JLabel getPasswordLabel() {
 		if (passwordLabel == null) {
@@ -97,17 +105,31 @@ public class AdminLogin extends JFrame {
 		}
 		return passwordLabel;
 	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setColumns(10);
-			textField_1.setBounds(134, 146, 203, 23);
+	private JTextField getPasswordField() {
+		if (passwordField == null) {
+			passwordField = new JTextField();
+			passwordField.setColumns(10);
+			passwordField.setBounds(134, 146, 203, 23);
 		}
-		return textField_1;
+		return passwordField;
 	}
 	private JButton getLoginButton() {
 		if (loginButton == null) {
 			loginButton = new JButton("Log In");
+			loginButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					AdminService as = new AdminServiceImpl();
+					System.out.println(as.adminLogin(userNameField.getText(), passwordField.getText()));
+					if(as.adminLogin(userNameField.getText(), passwordField.getText())) {
+						JOptionPane.showMessageDialog(null, "Succesfully Logged In");
+						new AdminHome().setVisible(true);
+						dispose();
+					}else {
+						JOptionPane.showMessageDialog(null, "Login Failed");
+					}
+				}
+			});
 			loginButton.setBounds(181, 200, 89, 23);
 		}
 		return loginButton;

@@ -8,7 +8,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.service.CashierService;
+import com.service.CashierServiceImpl;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JSeparator;
@@ -16,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CashierLogin extends JFrame {
 
@@ -113,6 +120,16 @@ public class CashierLogin extends JFrame {
 	private JButton getLoginButton() {
 		if (loginButton == null) {
 			loginButton = new JButton("Log In");
+			loginButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					CashierService cs = new CashierServiceImpl();
+					if(cs.cashierLogin(userNameField.getText(), passWordField.getText())) {
+						JOptionPane.showMessageDialog(null, "Successfully Logged In");
+						new CashierHome().setVisible(true);
+						dispose();
+					}
+				}
+			});
 			loginButton.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent e) {

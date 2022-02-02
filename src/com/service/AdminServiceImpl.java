@@ -25,10 +25,15 @@ public class AdminServiceImpl implements AdminService{
 			pstm.setString(4, cashier.getPassWord());
 			pstm.setDate(5, new Date(cashier.getBirthDate().getTime()));
 			pstm.setString(6,cashier.getAddress());
-			
-			if(pstm.execute()) {
+		
+			pstm.execute();
 				
-			}
+			String deleteQuery = String.format("DELETE FROM temp_cashier WHERE userName = '%s'",cashier.getUserName());
+			System.out.println(deleteQuery);
+			Statement stm = DB.getDbConn().createStatement();
+			stm.executeUpdate(deleteQuery);
+				
+			
 			
 		} catch (SQLException e) {
 			
@@ -69,6 +74,21 @@ public class AdminServiceImpl implements AdminService{
 		
 		return cashiers;
 		
+	}
+
+	@Override
+	public boolean adminLogin(String userName, String passWord) {
+		String query = String.format("SELECT * FROM admins WHERE userName = '%s' AND password = '%s'",userName.trim(),passWord.trim());
+		try {
+			Statement stm = DB.getDbConn().createStatement();
+			ResultSet rs = stm.executeQuery(query);
+			
+			return rs.next();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 }

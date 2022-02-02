@@ -91,6 +91,8 @@ public class Home extends JFrame {
 			adminLoginBtn = new JButton("Admin Login");
 			adminLoginBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					new AdminLogin().setVisible(true);
+					dispose();
 				}
 			});
 			adminLoginBtn.setBounds(294, 122, 124, 23);
