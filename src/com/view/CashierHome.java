@@ -20,6 +20,10 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import com.model.Bill;
+import com.service.BillService;
+import com.service.BillServiceImpl;
 import com.toedter.calendar.JDateChooser;
 
 public class CashierHome extends JFrame {
@@ -328,6 +332,8 @@ public class CashierHome extends JFrame {
 					Double price = Double.parseDouble(quantityField.getText())*Double.parseDouble(mrpField.getText());
 					Double priceWithDiscount = price - ((Double.parseDouble(discountField.getText())/100)*price);
 					tmodel.addRow(new Object[] {quantityField.getText(),productNameField.getText(),mrpField.getText(),priceWithDiscount});
+					Double totalValue = Double.parseDouble(textField_5.getText());
+					textField_5.setText(String.valueOf(totalValue+priceWithDiscount));
 				}
 			});
 		}
@@ -385,16 +391,36 @@ public class CashierHome extends JFrame {
 	private JTextField getTextField_5() {
 		if (textField_5 == null) {
 			textField_5 = new JTextField();
+			textField_5.setText("0");
 			textField_5.setEditable(false);
 			textField_5.setBounds(456, 352, 86, 20);
 			textField_5.setColumns(10);
+			
 		}
 		return textField_5;
 	}
 	private JButton getPrintButton() {
 		if (printButton == null) {
 			printButton = new JButton("print");
-			
+			printButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					BillService billService = new BillServiceImpl();
+					Bill bill = new Bill();
+					bill.setCustomerName(customerNameField.getText());
+					bill.setAmount(Double.parseDouble(textField_5.getText()));
+					bill.setDate(dateChooser.getDate());
+					billService.addBill(bill);
+					DefaultTableModel tmodel = (DefaultTableModel) table.getModel();
+					tmodel.setRowCount(0);
+					customerNameField.setText("");
+					productNameField.setText("");
+					mrpField.setText("");
+					quantityField.setText("");
+					discountField.setText("");
+					billNoField.setText("");
+				}
+			}); 
 			printButton.setBounds(560, 372, 89, 23);
 		}
 		return printButton;

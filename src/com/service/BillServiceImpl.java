@@ -40,7 +40,7 @@ public class BillServiceImpl implements BillService{
 		try {
 			PreparedStatement pstm = DB.getDbConn().prepareStatement(query);
 			pstm.setString(1, bill.getCustomerName());
-			pstm.setInt(2, bill.getAmount());
+			pstm.setDouble(2, bill.getAmount());
 			pstm.setDate(3, new Date(bill.getDate().getTime()));
 			
 		} catch (SQLException e) {
