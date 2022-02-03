@@ -154,7 +154,8 @@ public class AdminHome extends JFrame {
 					cashier.setAddress(table.getValueAt(table.getSelectedRow(), 6).toString());
 					cashier.setPassWord(table.getValueAt(table.getSelectedRow(), 4).toString());
 					as.addCashier(cashier);
-					getUnverifiedCashiers();
+					new AdminHome().setVisible(true);
+					dispose();
 				}
 			});
 			verifyButton.setBackground(Color.GREEN);

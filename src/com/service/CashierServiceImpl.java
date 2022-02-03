@@ -48,7 +48,9 @@ public class CashierServiceImpl implements CashierService{
 			pstm.setString(4, cashier.getPassWord());
 			pstm.setDate(5, new Date(cashier.getBirthDate().getTime()));
 			pstm.setString(6,cashier.getAddress());
-			return pstm.execute();
+			
+			pstm.execute();
+			return true;
 		} catch (SQLException e) {
 			
 			e.printStackTrace();

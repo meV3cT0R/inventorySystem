@@ -7,4 +7,5 @@ public interface ProductService {
 	boolean addProduct(Product product);
 	List<Product> getAllProduct();
 	Product getProductById(int id);
+	List<Product> searchProduct(String searchValue);
 }

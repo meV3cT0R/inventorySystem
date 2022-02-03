@@ -8,15 +8,21 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+
+import com.model.Cashier;
+import com.service.CashierService;
+import com.service.CashierServiceImpl;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Date;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -214,6 +220,28 @@ public class CashierRegister extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					if(!passWordField.getText().equals(retypePassWordField.getText()))
 						return;
+					Cashier cashier = new Cashier();
+					CashierService cs = new CashierServiceImpl();
+					
+					cashier.setFirstName(firstNameField.getText().trim());
+					cashier.setLastName(lastNameField.getText().trim());
+					cashier.setUserName(userNameField.getText().trim());
+					cashier.setPassWord(passWordField.getText().trim());
+					System.out.println(dateChooser.getDate());
+					cashier.setBirthDate(new Date(dateChooser.getDate().getTime())); 
+					
+					cashier.setAddress(addressField.getText().trim());
+					
+					
+					
+					if(cs.cashierRegister(cashier)) {
+						JOptionPane.showMessageDialog(null, "Your Info has been saved , Admin need to verify it");
+						new Home().setVisible(true);
+						dispose();
+					}else {
+						JOptionPane.showMessageDialog(null, "Error Occured");
+					}
+					
 				}
 			});
 			registerButton.setBounds(161, 379, 89, 23);

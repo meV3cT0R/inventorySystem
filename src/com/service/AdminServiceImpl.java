@@ -47,14 +47,16 @@ public class AdminServiceImpl implements AdminService{
 		String query = "SELECT * from temp_cashier";
 		List<Cashier> cashiers = new ArrayList<Cashier>();
 		
-		Cashier cashier = new Cashier();
+		
 		try {
 			Statement stm = DB.getDbConn().createStatement();
 			ResultSet rs = stm.executeQuery(query);
 			
-			
-			if(rs.next()) {
-				
+			int count= 0;
+			while(rs.next()) {
+				count++;
+				Cashier cashier = new Cashier();
+				System.out.println(count);
 				cashier.setFirstName(rs.getString("firstName"));
 				cashier.setLastName(rs.getString("lastName"));
 				cashier.setUserName(rs.getString("userName"));
